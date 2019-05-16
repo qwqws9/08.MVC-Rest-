@@ -26,6 +26,47 @@ function fncGetList(currentPage) {
 }
 
 	$( function(){
+		
+		$( ".ct_list_pop td:nth-child(1)" ).on("click" , function() {
+		
+			//alert( $( $('.ct_list_pop td:nth-child(1)')[    $('.ct_list_pop td:nth-child(1)').index(this)    ]).text().trim() );
+			var prodNo = $( $('.ct_list_pop td:nth-child(1)')[$('.ct_list_pop td:nth-child(1)').index(this)]).text().trim();
+			$.ajax( 
+					{
+						url : "/product/json/getProduct/"+prodNo ,
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status) {
+
+							var displayValue = "<h3>"
+														+"상 품 명 : "+JSONData.prodName+"<br/>"
+														+"상품정보 : "+JSONData.prodDetail+"<br/>"
+														+"가    격 : "+JSONData.price+"<br/>"
+														+"수    량 : "+JSONData.quantity+"<br/>"
+														+"</h3>";
+														
+														//alert(displayValue);
+							//Debug...									
+							//alert(displayValue);
+							$("h3").remove();
+							$( "#"+prodNo+"" ).html(displayValue);
+						}
+				});
+				////////////////////////////////////////////////////////////////////////////////////////////
+			
+	});
+		
+		
+		
+		
+		
+		
+		
+		
 		$('.ct_list_admin td:nth-child(1)').on('click', function(){
 			$(self.location).attr("href","/purchase/getPurchase?tranNo="+$(this).text().trim());			
 		});
@@ -131,9 +172,9 @@ function fncGetList(currentPage) {
 	<c:if test="${param.menu == 'admin' }">
 	
 	<tr>
-		<td class="ct_list_b" width="100">주문번호</td>
+		<td class="ct_list_b" width="100">상품번호</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">상품번호</td>
+		<td class="ct_list_b" width="150">주문번호</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">구매자아이디</td>
 		<td class="ct_line02"></td>
@@ -142,7 +183,7 @@ function fncGetList(currentPage) {
 		<td class="ct_list_b">현재상태</td>	
 	</tr>
 	<tr>
-		<td colspan="11" bgcolor="808285" height="1"></td>
+		<td  colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
 	
 	${param.menu }
@@ -153,11 +194,11 @@ function fncGetList(currentPage) {
 
 	<tr class="ct_list_pop">  
 		<td align="center">
-		${list.tranNo}</td>
-		<td></td>
-		<td align="left">
 			 ${ list.purchaseProd.prodNo}  
 		</td>
+		<td></td>
+		<td align="left">
+		${list.tranNo}</td>
 		<td></td>
 		<td align="left">${list.buyer.userId}</td>
 		<td></td>
@@ -179,7 +220,7 @@ function fncGetList(currentPage) {
 		</td>			
 	</tr>
 	<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+		<td id="${ list.purchaseProd.prodNo}" colspan="11" bgcolor="D6D7D6" height="1"></td>
 	</tr>
 	</c:forEach>
 	</c:if>
@@ -246,7 +287,7 @@ function fncGetList(currentPage) {
 		</td>			
 	</tr>
 	<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+		<td id="${list.prodNo}" colspan="11" bgcolor="D6D7D6" height="1"></td>
 	</tr>
 	</c:forEach>
 

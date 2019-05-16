@@ -21,9 +21,12 @@
 	
 	<!-- SQL : INSERT -->
 	<insert 	id="addProduct"		parameterType="product" >
+		<selectKey  resultType="int"   keyProperty="prodNo" order="BEFORE">
+			select seq_product_prod_no.nextval from dual
+		</selectKey>
 	 	INSERT
 		INTO product( prod_no , prod_name , prod_detail , manufacture_day , price, image_file, reg_date,quantity) 
-		VALUES	 (	seq_product_prod_no.nextval , #{prodName} , #{prodDetail} , #{manuDate} , #{price} , 
+		VALUES	 (	#{prodNo} , #{prodName} , #{prodDetail} , #{manuDate} , #{price} , 
 							 #{fileName} , SYSDATE, #{quantity} )
 	 </insert>
 	 

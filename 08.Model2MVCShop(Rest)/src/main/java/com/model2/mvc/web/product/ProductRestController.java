@@ -12,8 +12,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.model2.mvc.common.FileNameUUID;
@@ -25,7 +28,7 @@ import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.ReviewService;
 import com.model2.mvc.service.purchase.PurchaseService;
 
-@Controller
+@RestController
 @RequestMapping("/product/*")
 public class ProductRestController {
 	
@@ -48,7 +51,7 @@ public class ProductRestController {
 	
 	
 	public ProductRestController() {
-		System.out.println("ProductController default 생성자 호출!");
+		System.out.println("ProductRestController default 생성자 호출!");
 	}
 	
 	//==> classpath:config/common.properties  ,  classpath:config/commonservice.xml 참조 할것
@@ -62,34 +65,29 @@ public class ProductRestController {
 		int pageSize;
 		
 		
-	@RequestMapping("/addProduct")
-	public String addProduct( @ModelAttribute("pVo") Product pVo, MultipartFile imageName) throws Exception {
+	@RequestMapping("json/addProduct")
+	public Product addProduct( @RequestBody Product product) throws Exception {
 		
-		String saveName = FileNameUUID.saveFile(imageName);
-		pVo.setFileName(saveName);
+		//String saveName = FileNameUUID.saveFile(imageName);
+		//pVo.setFileName(saveName);
+		System.out.println("add들어옴");
 		
-		productService.addProduct(pVo) ;
+		productService.addProduct(product) ;
 		
-		return "forward:/product/confirmProduct.jsp";
+		System.out.println("!!!!!"+product.getProdNo());
+		
+		product = productService.getProduct(product.getProdNo());
+		
+		return product;
 	}
 	
-	@RequestMapping("/listProduct")
-	public String listProduct( @RequestParam(value="currentPage",defaultValue="1") int currentPage,
-								
-							   @RequestParam("menu") String menu,
-								@ModelAttribute("search") Search search,
-								Model model) throws Exception {
+	@RequestMapping("json/listProduct/{menu}")
+	public Map<String, Object> listProduct( 
+							  @PathVariable String menu,
+								@RequestBody Search search) throws Exception {
 		
 		search.setPageSize(pageSize);
 		
-		
-		System.out.println(currentPage + " 현재페이지는 몇인가아아아아아아아");
-
-		search.setCurrentPage(currentPage);
-		
-		System.out.println(currentPage + " 현재페이지 첫번째는 1 나오고 재 요청시 누른 페이지가 나와야함 ");
-		
-
 		
 		System.out.println("---------------------------------------");
 		System.out.println(search.getSearchCondition() + "컨디션");
@@ -105,148 +103,78 @@ public class ProductRestController {
 		}
 		
 		
-		System.out.println(currentPage + " dao 가기전에 현재페이지 호출 1이 나와야함");
 		System.out.println(map.get("totalCount") + " dao 가기전 totalCount");
 
 		Page page	= 
-				new Page( currentPage, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+				new Page( 1, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		
-		model.addAttribute("list", map.get("list"));
-		model.addAttribute("search", search);
-		model.addAttribute("page", page);
+		map.put("menu", menu);
+		map.put("search", search);
+		map.put("page", page);
+		
 
-		model.addAttribute("menu", menu);
-
-		return "forward:/product/listProduct.jsp";
+		return map;
 
 	}
 	
-	@RequestMapping("getProduct")
-	public String getProduct( @RequestParam(value="currentPage",defaultValue="1") int currentPage,
-							@RequestParam(value="currentPage1",defaultValue="1") int currentPage1,
-							@RequestParam("prodNo") String prodNo,
-								HttpServletResponse response,
-								HttpServletRequest request,
-								@RequestParam("menu") String menu,
-								Model model
+	@RequestMapping("json/getProduct/{prodNo}")
+	public Product getProduct( @PathVariable int prodNo
+							
 			) throws Exception {
 		
+		System.out.println("!!" + prodNo);
 		
-		String his = "";
-
-		Cookie[] cookie = request.getCookies();
-
-		if (cookie != null) {
-			System.out.println("들어오싸나");
-			for (int i = 0; i < cookie.length; i++) {
-				if (cookie[i].getName().equals("history")) {
-					his = cookie[i].getValue() + "," + prodNo;
-					Cookie c = new Cookie("history", his);
-					c.setMaxAge(365 * 24 * 60 * 60);
-					response.addCookie(c);
-					break;
-				}else {
-					Cookie c = new Cookie("history", prodNo);
-					c.setMaxAge(365 * 24 * 60 * 60);
-					response.addCookie(c);
-				}
-			}
-		}
-
-		System.out.println("-------------------------------");
-		System.out.println(menu + " 11111111111111111111");
-		System.out.println("-------------------------------");
-
 		Product pVo = new Product();
-		pVo = productService.getProduct(Integer.parseInt(prodNo));
+		pVo = productService.getProduct(prodNo);
 
-		request.setAttribute("pVo", pVo);
-		request.setAttribute("prodNo", prodNo);
-
-		// 상품이 판매완료가아닌상태 + 관리자일때만 수정페이지로 보냄
-		if (menu.equals("manage")) {
-			System.out.println("관리자인데 어디로보내냔ㄴ");
-			return "forward:/product/updateProductView";
-		}
-		
-		Search search = new Search();
-		Search search1 = new Search();
-		
-		// 상품상세 조회시 상품리뷰가 있다면 리스트로 보여주기
-		search.setPageSize(pageSize);
-		search.setCurrentPage(currentPage);
-		
-		
-		Map<String,Object> map = reviewService.getReviewList(search,prodNo);
-		Page page	= 
-				new Page( currentPage, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		
-		model.addAttribute("list", map.get("list"));
-		model.addAttribute("search", search);
-		model.addAttribute("page", page);
-		
-		
-		
-		// 상품상세 조회시 상품문의가 있다면 리스트로 보여주기
-		search1.setPageSize(pageSize);
-		search1.setCurrentPage(currentPage1);
-		
-		
-		Map<String,Object> map1 = questService.getBoardList(prodNo, search1);
-		Page page1	= 
-				new Page( currentPage1, ((Integer)map1.get("questtotalCount")).intValue(), pageUnit, pageSize);
-		
-		model.addAttribute("questlist", map1.get("questlist"));
-		model.addAttribute("search1", search1);
-		model.addAttribute("page1", page1);
 		
 
-		return "forward:/product/getProduct.jsp";
+		return pVo;
 	}
 	
-	@RequestMapping("updateProduct")
-	public String updateProduct( @ModelAttribute("product") Product product,
-									HttpServletRequest request, MultipartFile imageName) throws Exception {
-		
-	
-		String saveName = FileNameUUID.saveFile(imageName);
-		product.setFileName(saveName);
-		
-		product.setProdNo(Integer.parseInt(request.getParameter("hidden")));
-		System.out.println("상품번호야 출력되어라 ~~~ " +request.getParameter("hidden"));
-		
-		
-		productService.updateProduct(product);
-		//System.out.println(pVo.getRegDate()+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		
-		//request.removeAttribute("pVo");
-		Product pVo = new Product();
-		pVo = productService.getProduct(Integer.parseInt(request.getParameter("hidden")));
-		System.out.println("1==>"+pVo);
-		
-		
-		
-		request.setAttribute("pVo", pVo);
-		request.setAttribute("menu", request.getParameter("menu"));
-		
-		return "forward:/product/getProduct?prodNo="+product.getProdNo();
-	}
-	
-	@RequestMapping("updateProductView")
-	public String updateProductView(HttpServletRequest request) throws Exception {
-		
-
-		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
-		System.out.println("판매번호 : " + prodNo);
-		
-		//request.setAttribute("prodNo", prodNo);
-		
-		Product pVo = productService.getProduct(prodNo);
-		
-		request.setAttribute("pVo", pVo);
-		
-		return "forward:/product/updateProductView.jsp";
-	}
+//	@RequestMapping("updateProduct")
+//	public String updateProduct( @ModelAttribute("product") Product product,
+//									HttpServletRequest request, MultipartFile imageName) throws Exception {
+//		
+//	
+//		String saveName = FileNameUUID.saveFile(imageName);
+//		product.setFileName(saveName);
+//		
+//		product.setProdNo(Integer.parseInt(request.getParameter("hidden")));
+//		System.out.println("상품번호야 출력되어라 ~~~ " +request.getParameter("hidden"));
+//		
+//		
+//		productService.updateProduct(product);
+//		//System.out.println(pVo.getRegDate()+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//		
+//		//request.removeAttribute("pVo");
+//		Product pVo = new Product();
+//		pVo = productService.getProduct(Integer.parseInt(request.getParameter("hidden")));
+//		System.out.println("1==>"+pVo);
+//		
+//		
+//		
+//		request.setAttribute("pVo", pVo);
+//		request.setAttribute("menu", request.getParameter("menu"));
+//		
+//		return "forward:/product/getProduct?prodNo="+product.getProdNo();
+//	}
+//	
+//	@RequestMapping("updateProductView")
+//	public String updateProductView(HttpServletRequest request) throws Exception {
+//		
+//
+//		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
+//		System.out.println("판매번호 : " + prodNo);
+//		
+//		//request.setAttribute("prodNo", prodNo);
+//		
+//		Product pVo = productService.getProduct(prodNo);
+//		
+//		request.setAttribute("pVo", pVo);
+//		
+//		return "forward:/product/updateProductView.jsp";
+//	}
 	
 	
 }
