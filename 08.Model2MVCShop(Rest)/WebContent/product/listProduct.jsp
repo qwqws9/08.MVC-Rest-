@@ -13,6 +13,9 @@
   src="https://code.jquery.com/jquery-2.1.4.js"
   integrity="sha256-siFczlgw4jULnUICcdm9gjQPZkw/YPDqhQ9+nAOScE4="
   crossorigin="anonymous"></script>
+  
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+   
 <script type="text/javascript">
 
 // 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
@@ -24,11 +27,70 @@ function fncGetList(currentPage) {
 	
 	
 }
+		
 
 	$( function(){
 		
-		$( ".ct_list_pop td:nth-child(1)" ).on("click" , function() {
+		$( ".ct_list_pop td:nth-child(3)" ).on('mouseleave' , function() {
+			
+				$("#zzzz").tooltip("disable");      
+			
+			
+		});
 		
+		$( ".ct_list_pop td:nth-child(3)" ).on('mouseover' , function() {
+			
+			//alert("이벤트발생");
+		
+			//alert( $( $('.ct_list_pop td:nth-child(1)')[    $('.ct_list_pop td:nth-child(1)').index(this)    ]).text().trim() );
+			var prodNo = $( $('.ct_list_pop td:nth-child(1)')[$('.ct_list_pop td:nth-child(3)').index(this)]).text().trim();
+			//alert(prodNo);
+			$.ajax( 
+					{
+						url : "/product/json/getProduct/"+prodNo ,
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status) {
+								
+							//alert(status);
+							var displayValue = '\'<img width=\"200\" height=\"200\" src=\"../images/uploadFiles/'
+														+JSONData.fileName
+														
+														+"\"/>'";
+														
+														//alert(displayValue);
+							//Debug...									
+							//alert(displayValue);
+							//$("h3").remove();
+							$("#zzzz").tooltip({ 
+								track: true,
+								content: displayValue 
+								});
+
+							//$( "#"+prodNo+"" ).html(displayValue);  img[alt]
+						}
+				});
+				////////////////////////////////////////////////////////////////////////////////////////////
+			
+	});
+
+		
+		
+		
+		
+		
+	
+		
+		
+		
+		
+		
+		$( ".ct_list_pop td:nth-child(1)" ).on("click" , function() {
+			
 			//alert( $( $('.ct_list_pop td:nth-child(1)')[    $('.ct_list_pop td:nth-child(1)').index(this)    ]).text().trim() );
 			var prodNo = $( $('.ct_list_pop td:nth-child(1)')[$('.ct_list_pop td:nth-child(1)').index(this)]).text().trim();
 			$.ajax( 
@@ -59,9 +121,6 @@ function fncGetList(currentPage) {
 				////////////////////////////////////////////////////////////////////////////////////////////
 			
 	});
-		
-		
-		
 		
 		
 		
@@ -153,7 +212,7 @@ function fncGetList(currentPage) {
 						<a href="javascript:fncGetList(1);">검색</a>
 					</td>
 					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
+						<img src="/images/ct_btnbg03.gif"  width="14" height="23">
 					</td>
 				</tr>
 			</table>
@@ -264,7 +323,7 @@ function fncGetList(currentPage) {
 		<td></td>
 		<td align="left">
 		<c:if test = "${fn:trim(list.quantity) != 0 || user.role == 'admin'}" >
-				<a href="/product/getProduct?menu=${param.menu}&prodNo=${list.prodNo}">${list.prodName}</a>
+				<a id="zzzz" title='' href="/product/getProduct?menu=${param.menu}&prodNo=${list.prodNo}">${list.prodName}</a>
 		</c:if>
 			
 		<c:if test = "${fn:trim(list.quantity) == 0 && user.role == 'user'}" >
