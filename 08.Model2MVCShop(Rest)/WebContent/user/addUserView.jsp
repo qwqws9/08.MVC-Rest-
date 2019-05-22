@@ -143,6 +143,72 @@
 			});
 		});	
 
+		
+		$( function(){
+			
+			
+			$('input[name="password2"]').on('focus', function(){
+				//alert("11");
+				$('td p:contains("암호가 일치하지 않습니다.")').remove();
+			});
+			
+			
+			$('input[name="password2"]').on('focusout', function(){
+				
+				var pw = $('input[name="password"]').val();
+				var pw2 = $('input[name="password2"]').val();
+				
+				if(pw != pw2) {
+					$('input[name="password2"]').parent().append('<p>암호가 일치하지 않습니다.</p>').css('color','red');
+				}
+				
+				
+			});
+			
+			
+			$('#checkId').on('keyup', function(){
+				//console.log($('#checkId').val());
+				var len = $('#checkId').val();
+				//console.log(len.length);
+				
+				if($('#checkId').val() != '') {
+				$.ajax({
+					url : '/user/json/checkDuplication/'+$('#checkId').val(),
+					method : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},success : function(JSONData , status) {
+
+						var check = "";
+						
+						if( len.length < 5){
+							check = "아이디는 5글자 이상 입력해주세요."
+								$('tr tr tr').text(check).css('color','red');
+							
+						}else {
+							
+							if(JSONData == true) {
+								check = "사용 가능한 아이디입니다."
+									$('tr tr tr').text(check).css('color','green');
+							}else {
+								check = "이미 사용중인 아이디입니다."
+								$('tr tr tr').text(check).css('color','red');
+							}
+						}
+													//alert(check);
+													//alert(JSONData);
+						
+					}
+				
+			});}
+						
+						
+				
+				
+			});
+		});
 	</script>		
 	
 </head>
@@ -185,21 +251,13 @@
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-						<input 	type="text" name="userId" class="ct_input_bg" 
+						<input id="checkId" type="text" name="userId" class="ct_input_bg" 
 										style="width:100px; height:19px"  maxLength="20" >
 					</td>
 					<td>
 						<table border="0" cellspacing="0" cellpadding="0">
 							<tr>
-								<td width="4" height="21">
-									<img src="/images/ct_btng01.gif" width="4" height="21"/>
-								</td>
-								<td align="center" background="/images/ct_btng02.gif" class="ct_btn" style="padding-top:3px;">
-									 ID중복확인
-								</td>
-								<td width="4" height="21">
-									<img src="/images/ct_btng03.gif" width="4" height="21"/>
-								</td>
+								
 							</tr>
 						</table>
 					</td>
@@ -235,6 +293,7 @@
 		<td class="ct_write01">
 			<input 	type="password" name="password2" class="ct_input_g" 
 							style="width:100px; height:19px"  maxLength="10" minLength="6"  />
+									
 		</td>
 	</tr>
 	

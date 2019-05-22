@@ -114,7 +114,7 @@ $( function(){
 			상품 수량<img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${pVo.quantity}  /images/uploadFiles/../../images/${pVo.fileName }</td>
+		<td class="ct_write01">${pVo.quantity}</td>
 	</tr>
 
 	<tr>

@@ -27,66 +27,10 @@ function fncGetList(currentPage) {
 	
 	
 }
-		
+
+
 
 	$( function(){
-		
-		$( ".ct_list_pop td:nth-child(3)" ).on('mouseleave' , function() {
-			
-				$("#zzzz").tooltip("disable");      
-			
-			
-		});
-		
-		$( ".ct_list_pop td:nth-child(3)" ).on('mouseover' , function() {
-			
-			//alert("이벤트발생");
-		
-			//alert( $( $('.ct_list_pop td:nth-child(1)')[    $('.ct_list_pop td:nth-child(1)').index(this)    ]).text().trim() );
-			var prodNo = $( $('.ct_list_pop td:nth-child(1)')[$('.ct_list_pop td:nth-child(3)').index(this)]).text().trim();
-			//alert(prodNo);
-			$.ajax( 
-					{
-						url : "/product/json/getProduct/"+prodNo ,
-						method : "GET" ,
-						dataType : "json" ,
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						success : function(JSONData , status) {
-								
-							//alert(status);
-							var displayValue = '\'<img width=\"200\" height=\"200\" src=\"../images/uploadFiles/'
-														+JSONData.fileName
-														
-														+"\"/>'";
-														
-														//alert(displayValue);
-							//Debug...									
-							//alert(displayValue);
-							//$("h3").remove();
-							$("#zzzz").tooltip({ 
-								track: true,
-								content: displayValue 
-								});
-
-							//$( "#"+prodNo+"" ).html(displayValue);  img[alt]
-						}
-				});
-				////////////////////////////////////////////////////////////////////////////////////////////
-			
-	});
-
-		
-		
-		
-		
-		
-	
-		
-		
-		
 		
 		
 		$( ".ct_list_pop td:nth-child(1)" ).on("click" , function() {
@@ -140,7 +84,7 @@ function fncGetList(currentPage) {
 			//alert( $('.ct_list_pop td:nth-child(9)').index(this)    );
 			//alert(  $(  $('.ct_list_pop td:nth-child(1)')[$('.ct_list_pop td:nth-child(9)').index(this)]).text().trim() );
 			
-			var temp = $(  $('.ct_list_pop td:nth-child(1)')[$('.ct_list_pop td:nth-child(9)').index(this)]).text().trim();
+			var temp = $(  $('.ct_list_pop td:nth-child(3)')[$('.ct_list_pop td:nth-child(9)').index(this)]).text().trim();
 			
 			//alert(  $(  $('.ct_list_admin td:nth-child(1)')[temp]).text().trim() );
 			
@@ -151,6 +95,44 @@ function fncGetList(currentPage) {
 	});
 	
 
+	
+	function previewOn(idx){
+		//alert(idx);
+		
+		$.ajax( 
+				{
+					url : "/product/json/getProduct/"+idx ,
+					method : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JSONData , status) {
+							
+						//alert(status);
+						var val = JSONData.fileName;
+											
+													
+													//alert(val);
+						//Debug...									
+						//alert(displayValue);
+						//$("h3").remove();
+						
+						$("#preview-" + idx ).attr('src','../images/uploadFiles/'+val);
+						$("#preview-" + idx ).css('display','block');
+						//$( "#"+prodNo+"" ).html(displayValue);  img[alt]
+					}
+			});
+		
+	   // $("#preview-" + idx ).attr('src', ( $("#preview-" + idx ).attr('data-src') ) );
+	   // $("#preview-" + idx ).css('display','block');
+	}
+
+	function previewOff(idx){
+		//alert(idx + "out");
+	    $("#preview-" + idx ).css('display','none');
+	} 
 
 
 
@@ -158,6 +140,8 @@ function fncGetList(currentPage) {
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
+
+
 
 <div style="width:98%; margin-left:10px;">
 
@@ -180,7 +164,7 @@ function fncGetList(currentPage) {
 			</table>
 		</td>
 		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
+			<img  src="/images/ct_ttl_img03.gif" width="12" height="37"/>
 		</td>
 	</tr>
 </table>
@@ -329,7 +313,8 @@ function fncGetList(currentPage) {
 		<c:if test = "${fn:trim(list.quantity) == 0 && user.role == 'user'}" >
 				${list.prodName}
 		</c:if>
-			
+			<img src = "../images/p.png" width="20" onmouseover="previewOn(${list.prodNo})" onmouseout="previewOff(${list.prodNo})">
+			<img  id="preview-${list.prodNo }" width="250" height="250" style=" margin-left:50px; border:1px solid #888; position:absolute; margin-top:0px; display:none;">
 		</td>
 		<td></td>
 		<td align="left">${list.price}</td>
