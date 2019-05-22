@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -86,7 +87,7 @@ public class ProductRestController {
 							  @PathVariable String menu,
 								@RequestBody Search search) throws Exception {
 		
-		search.setPageSize(pageSize);
+		//search.setPageSize(pageSize);
 		
 		
 		System.out.println("---------------------------------------");
@@ -176,5 +177,9 @@ public class ProductRestController {
 //		return "forward:/product/updateProductView.jsp";
 //	}
 	
-	
+	@ExceptionHandler(value=Exception.class)
+	public String aaaa(Exception a) {
+		a.printStackTrace();
+		return a.getMessage();
+	}
 }
