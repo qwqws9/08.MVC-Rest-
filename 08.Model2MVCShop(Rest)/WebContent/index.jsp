@@ -10,18 +10,18 @@
 	
 		
   <title>Shop Homepage</title>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/shop-homepage.css" rel="stylesheet">
+  <link href="/css/shop-homepage.css" rel="stylesheet">
 
- <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-	<script type="text/javascript">
+
+	<script type="text/javascript"> 
 	
 	$( function() {
 		$.ajax(
@@ -56,7 +56,7 @@
 		
 	});//end $function
 	
-	</script>
+	</script> 
 </head>
 
 <body>
@@ -102,6 +102,9 @@
           <a href="#" class="list-group-item">Category 2</a>
           <a href="#" class="list-group-item">Category 3</a>
         </div>
+        
+        
+        
 
       </div>
       <!-- /.col-lg-3 -->
@@ -254,6 +257,9 @@
   </footer>
 
  
+ <!-- Bootstrap core JavaScript -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
