@@ -39,9 +39,13 @@
 					},
 					success : function(JSONData, status) {
 						
-						//alert(status);
-						$.each(JSONData, function(){
-						alert ( JSONData.list[0].prodNo);
+			
+							//alert(status);
+							$.each(JSONData, function(){
+							//alert ( JSONData.list[0].prodNo);
+							$('.row .card-img-top').attr('src',JSONData.list.fileName);
+							})
+							
 						})
 						
 					},// end callback
