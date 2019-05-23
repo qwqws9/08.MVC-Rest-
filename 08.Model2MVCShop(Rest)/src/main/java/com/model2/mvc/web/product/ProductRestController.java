@@ -1,6 +1,8 @@
 package com.model2.mvc.web.product;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.model2.mvc.common.FileNameUUID;
+import com.model2.mvc.common.GetRandom;
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.board.BoardService;
@@ -99,6 +102,13 @@ public class ProductRestController {
 		
 		if(menu.equals("admin")) {
 			map = purchaseService.getSaleList(search);
+		}else if(menu.equals("search")) {
+			map = productService.getProductList(search);
+			search.setPageSize((int)map.get("totalCount"));
+			map.clear();
+			
+			map = productService.getProductList(search);
+			map.put("random", GetRandom.getRandom(search.getPageSize()));
 		}else {
 			map = productService.getProductList(search);
 		}
@@ -106,12 +116,13 @@ public class ProductRestController {
 		
 		System.out.println(map.get("totalCount") + " dao °¡±âÀü totalCount");
 
-		Page page	= 
-				new Page( 1, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		//map.remove("totalCount");
+		//Page page	= 
+		//		new Page( 1, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		
-		map.put("menu", menu);
-		map.put("search", search);
-		map.put("page", page);
+		//map.put("menu", menu);
+		//map.put("search", search);
+		//map.put("page", page);
 		
 
 		return map;
