@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <html lang="ko">
 
 <head>
@@ -93,6 +94,10 @@
 	});// end scroll function
 	
 	$( function() {
+		
+		
+		
+		
 		$.ajax(
 				{
 					url : "/product/json/listProduct/search",
@@ -196,9 +201,205 @@
 	
 	
 	
+	
+	$(document).ready(function() {
+		$('a.nav-link:contains("로그인")').on('click',function() {
+		    
+		            //Getting the variable's value from a link 
+		    var loginBox = $(this).attr('href');
+
+		    //Fade in the Popup
+		    $(loginBox).fadeIn(300);
+		    
+		    //Set the center alignment padding + border see css style
+		    var popMargTop = ($(loginBox).height() + 24) /2; 
+		    var popMargLeft = ($(loginBox).width() + 24) /2; 
+		    
+		    $(loginBox).css({ 
+		        'margin-top' : -popMargTop,
+		        'margin-left' : -popMargLeft
+		    });
+		    
+		    // Add the mask to body
+		    $('body').append('<div id="mask"></div>');
+		    $('#mask').fadeIn(300);
+		    
+		    return false;
+		});
+		
+		
+// 		$(document).on('click',function() {
+			
+// 			if($('#mask').length){
+// 				 $('#mask , .login-popup').fadeOut(300 , function() {
+// 				$('#mask').remove();
+				 
+// 			})
+// 			}
+// 			});
+		
+		$(document).click(function(e) { 
+			if($(e.target).is(".login-popup *")) { 
+				return false;
+				}else {
+					 $('#mask , .login-popup').fadeOut(300 , function() {
+				 	 $('#mask').remove(); 
+					 });
+				}
+			});
+
+
+
+// 		// When clicking on the button close or the mask layer the popup closed
+// 		$('a.close, #mask').on('click', function() { 
+// 		  $('#mask , .login-popup').fadeOut(300 , function() {
+// 		    $('#mask').remove();  
+// 		}); 
+// 		return false;
+// 		});
+		
+		
+		
+		});
+
+	
+	
+	
 	</script> 
 	
 	
+	<style type="text/css">
+	/* Mask for background, by default is not display */
+#mask {
+    display: none;
+    background: #000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+    z-index: 999;
+}
+
+/* You can customize to your needs  */
+.login-popup {
+    display: none;
+    background: #333;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    font-size: 1.5em;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    /* CSS3 */
+        -moz-box-shadow: 0px 0px 20px #999;
+    /* Firefox */
+        -webkit-box-shadow: 0px 0px 20px #999;
+    /* Safari, Chrome */
+	border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    /* Firefox */
+        -webkit-border-radius: 3px;
+    /* Safari, Chrome */;
+    width: 500px;
+    height: 500px;
+}
+
+/* img.btn_close { */
+/*     Position the close button */
+/* 	float: right; */
+/*     margin: -60px -108px 0 0; */
+/* } */
+
+fieldset {
+    border: none;
+}
+
+form.signin .textbox label {
+    display: block;
+    padding-bottom: 7px;
+    padding-left: 80px;
+   
+}
+
+form.signin .textbox span {
+    display: block;
+}
+
+form.signin p {
+    color: #999;
+    font-size: 15px;
+    line-height: 18px;
+    padding-left: 80px;
+}
+
+form.signin span {
+	margin-top:10px;
+	color: #999;
+    font-size: 15px;
+    line-height: 18px;
+    padding-left: 5px;
+}
+
+form.signin .textbox input {
+    background: #666666;
+    border-bottom: 1px solid #333;
+    border-left: 1px solid #000;
+    border-right: 1px solid #333;
+    border-top: 1px solid #000;
+    color: #fff;
+    border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    font: 13px Arial, Helvetica, sans-serif;
+    padding: 6px 6px 4px;
+    width: 300px;
+    
+}
+
+form.signin input:-moz-placeholder {
+    color: #bbb;
+    text-shadow: 0 0 2px #000;
+}
+
+form.signin input::-webkit-input-placeholder {
+    color: #bbb;
+    text-shadow: 0 0 2px #000;
+}
+
+.button {
+    background: -moz-linear-gradient(center top, #f3f3f3, #dddddd);
+    background: -webkit-gradient(linear, left top, left bottom, from(#f3f3f3), to(#dddddd));
+    background: -o-linear-gradient(top, #f3f3f3, #dddddd);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f3f3f3', EndColorStr='#dddddd');
+    border-color: #000;
+    border-width: 1px;
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    padding: 6px 6px 4px;
+    margin-top: 10px;
+    margin-left: 80px;
+    font: 12px;
+    width: 300px;
+    height: 50px;
+    
+    
+}
+
+.button:hover {
+    background: #ddd;
+}
+	
+	</style>
 
 </head>
 
@@ -221,12 +422,20 @@
           <li class="nav-item">
             <a class="nav-link" href="#">About</a>
           </li>
+          <c:if test="${empty user }">
           <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
+         	 <a href="#login-box" class="nav-link">로그인</a>
+<!--             <a class="nav-link" href="/user/login">로그인</a> -->
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href="#">회원가입</a>
           </li>
+            </c:if>
+            <c:if test="${!empty user }">
+          <li class="nav-item">
+            <a class="nav-link" href="#">로그아웃</a>
+          </li>
+            </c:if>
         </ul>
       </div>
     </div>
@@ -392,6 +601,26 @@
 
   </div>
   <!-- /.container -->
+  
+  <div id="login-box" class="login-popup" style= "display: none;">
+<!-- 		<a href="#" class="close"><img src="http://www.alessioatzeni.com/wp-content/tutorials/jquery/login-box-modal-dialog-window/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a> -->
+  <form method="post" class="signin" action="#">
+        <fieldset class="textbox">
+        <label class="username">
+        <span>아이디</span>
+        <input id="username" name="username" value="" type="text" autocomplete="on" placeholder="UserId">
+        </label>
+        <label class="password">
+        <span>비밀번호</span>
+        <input id="password" name="password" value="" type="password" placeholder="Password">
+        </label>
+        <button class="submit button" type="button">로그인</button>
+        <p>
+        <a class="forgot" href="#">아이디/비밀번호 찾기</a>
+        </p>        
+        </fieldset>
+  </form>
+</div>
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">
