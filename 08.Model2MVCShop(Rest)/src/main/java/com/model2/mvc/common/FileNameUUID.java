@@ -21,8 +21,9 @@ public class FileNameUUID {
 		
 		System.out.println("ÆÄÀÏ¸í"+saveName);
 
-		File saveFile = new File("C:\\Users\\USER\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles",saveName);
-		//"C:\\Users\\USER\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles"
+		File saveFile = new File("C:\\Users\\qwqws\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles",saveName);
+		// C:\\Users\\qwqws\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles
+		// C:\\Users\\USER\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles
 		try {
 			file.transferTo(saveFile);
 		} catch (IOException e) {

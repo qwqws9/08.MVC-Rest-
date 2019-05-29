@@ -87,6 +87,10 @@
  							 $(".row .col-lg-4.col-md-6.mb-4:nth-child("+nth+") h4 a").text(JSONData.list[idx].prodName);
  							 $(".row .col-lg-4.col-md-6.mb-4:nth-child("+nth+") .card-text").text(JSONData.list[idx].prodDetail);
  							 $(".row .col-lg-4.col-md-6.mb-4:nth-child("+nth+") .card-body h5").text(numberWithCommas(JSONData.list[idx].price)+"원");
+ 							 
+ 							 
+ 							 $(".row .col-lg-4.col-md-6.mb-4:nth-child("+nth+") h4 a").attr('href','/product/getProduct?menu=search&prodNo='+JSONData.list[idx].prodNo);
+							 $(".row .col-lg-4.col-md-6.mb-4:nth-child("+nth+") .card.h-100 a").attr('href','/product/getProduct?menu=search&prodNo='+JSONData.list[idx].prodNo);
 								idx++;
 								nth++;
 // 							alert("2번째 : "+idx);
@@ -153,6 +157,10 @@
  							 $(".row .col-lg-4.col-md-6.mb-4:nth-child("+(idx+1)+") h4 a").text(JSONData.list[idx].prodName);
  							 $(".row .col-lg-4.col-md-6.mb-4:nth-child("+(idx+1)+") .card-text").text(JSONData.list[idx].prodDetail);
  							 $(".row .col-lg-4.col-md-6.mb-4:nth-child("+(idx+1)+") .card-body h5").text(numberWithCommas(JSONData.list[idx].price)+"원");
+ 							 
+ 							 $(".row .col-lg-4.col-md-6.mb-4:nth-child("+(idx+1)+") h4 a").attr('href','/product/getProduct?menu=search&prodNo='+JSONData.list[idx].prodNo);
+ 							 $(".row .col-lg-4.col-md-6.mb-4:nth-child("+(idx+1)+") .card.h-100 a").attr('href','/product/getProduct?menu=search&prodNo='+JSONData.list[idx].prodNo);
+ 							 
 							}
 								imgArray[idx] =  '/images/uploadFiles/'+JSONData.list[idx].fileName;
 								idx++;
@@ -284,7 +292,7 @@
 	//로그인 이벤트
 	$( function() {
 		$('.submit.button').on('click', function() {
-			 $('#mypage').val(" 님 환영합니다.");
+			// $('#mypage').val(" 님 환영합니다.");
 			var id = $('#username').val().trim();
 			var pwd = $('#password').val().trim();
 			//alert(id + "," + pwd);
@@ -520,19 +528,22 @@ form.signin input::-webkit-input-placeholder {
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
+        <c:if test="${user.role eq 'admin' }">
           <li class="nav-item dropdown">
-            <a id="mypage" class="nav-link dropdown-toggle"   href="#"  data-toggle="dropdown">상품
+            <a id="manage" class="nav-link dropdown-toggle"   href="#"  data-toggle="dropdown">관리자
             </a>
 					  <div class="dropdown-content">
 					  
-					    <a href="#">내 정보보기</a>
-					    <a href="#">주문배송조회</a>
-					    <a href="#">1 : 1 문의</a>
-					    <a href="#">장바구니</a>
+					    <a href="#">회원정보조회</a>
 					    <hr>
-					    <a href="/user/logout">로그아웃</a>
+					    <a href="/product/addProductView.jsp">판매상품등록</a>
+					    <a href="#">판매상품관리</a>
+					    <a href="#">배송업무</a>
+					    <hr>
+					    <a href="#">1 : 1 문의</a>
 					  </div>
           </li>
+          </c:if>
           <li class="nav-item">
             <a class="nav-link" href="#">About</a>
           </li>

@@ -28,9 +28,7 @@
         	border: 3px solid #D6CDB7;
             margin-top: 10px;
         }
-       .nav-item{float:right;}
-       .nav-item:first-child 
-       { float : left;}
+      
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -188,7 +186,7 @@
 					//console.log($('#checkId').val());
 					var len = $('#userId').val();
 					//console.log(len.length);
-					
+					$('#id').remove();
 					if($('#userId').val() != '') {
 					$.ajax({
 						url : '/user/json/checkDuplication/'+$('#userId').val(),

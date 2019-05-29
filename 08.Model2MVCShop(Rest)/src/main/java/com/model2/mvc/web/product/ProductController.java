@@ -73,7 +73,8 @@ public class ProductController {
 		
 		productService.addProduct(pVo) ;
 		
-		return "forward:/product/confirmProduct.jsp";
+//		return "forward:/product/confirmProduct.jsp";
+		return "forward:/product/getProduct?prodNo="+pVo.getProdNo()+"&menu=manage";
 	}
 	
 	@RequestMapping("/listProduct")
@@ -167,7 +168,7 @@ public class ProductController {
 		request.setAttribute("prodNo", prodNo);
 
 		// 상품이 판매완료가아닌상태 + 관리자일때만 수정페이지로 보냄
-		if (menu.equals("manage")) {
+		if (menu.equals("admin")) {
 			System.out.println("관리자인데 어디로보내냔ㄴ");
 			return "forward:/product/updateProductView";
 		}

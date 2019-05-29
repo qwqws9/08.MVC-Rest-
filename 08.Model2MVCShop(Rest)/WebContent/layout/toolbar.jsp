@@ -13,9 +13,9 @@
  <!-- Bootstrap core CSS -->
 <!--   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
 
-<!--   <!-- Custom styles for this template --> -->
+<!--   <!-- Custom styles for this template -->
 <!--   <link href="/css/shop-homepage.css" rel="stylesheet"> -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
 <script type="text/javascript">
 $(document).ready(function() {
 	$('a.nav-link:contains("로그인")').on('click',function() {
@@ -105,7 +105,7 @@ $( function() {
 			success : function(JSONData, status) {
 				//alert(status);
 				//alert(JSONData.user.userName);
-				alert(JSONData.pass);
+				//alert(JSONData.pass);
 				var pass = JSONData.pass;
 				if(pass == 'false') {
 					$('.password').append('<span>아이디 또는 비밀번호를 다시 확인하세요.</span>')
@@ -309,6 +309,13 @@ form.signin input::-webkit-input-placeholder {
 .dropdown:hover .dropdown-content {display: block;}
 
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+
+ .navbar-nav{float:right;}
+ 
+ A:link {
+ font-size: 11pt;
+ }
 </style>
 	
 	
@@ -326,11 +333,27 @@ form.signin input::-webkit-input-placeholder {
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
+      
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">
-              <span class="sr-only">(current)</span>awdawdawawd
+        <c:if test="${user.role eq 'admin' }">
+          <li class="nav-item dropdown">
+            <a id="manage" class="nav-link dropdown-toggle"   href="#"  data-toggle="dropdown">관리자
             </a>
+					  <div class="dropdown-content">
+					  
+					    <a href="#">회원정보조회</a>
+					    <hr>
+					    <a href="#">판매상품등록</a>
+					    <a href="#">판매상품관리</a>
+					    <a href="#">배송업무</a>
+					    <hr>
+					    <a href="#">1 : 1 문의</a>
+					  </div>
+          </li>
+          </c:if>
+<!--           <li class="nav-item active"> -->
+            <li class="nav-item">
+            <a class="nav-link" href="#">123qwe</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">awdawdawd</a>
@@ -357,7 +380,7 @@ form.signin input::-webkit-input-placeholder {
 					    <a href="#">1 : 1 문의</a>
 					    <a href="#">장바구니</a>
 					    <hr>
-					    <a href="#">로그아웃</a>
+					    <a href="/user/logout">로그아웃</a>
 					  </div>
 <!-- 					</div> -->
             
@@ -381,6 +404,7 @@ form.signin input::-webkit-input-placeholder {
           </li>
             </c:if>
         </ul>
+        
       </div>
     </div>
   </nav>
@@ -411,7 +435,7 @@ form.signin input::-webkit-input-placeholder {
 </div>
 
    <!-- Bootstrap core JavaScript -->
-  <script src="/vendor/jquery/jquery.min.js"></script>
+<!--   <script src="/vendor/jquery/jquery.min.js"></script> -->
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   
   
