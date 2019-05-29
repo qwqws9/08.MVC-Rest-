@@ -1,5 +1,6 @@
 package com.model2.mvc.web.user;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -49,19 +50,34 @@ public class UserRestController {
 	}
 
 	@RequestMapping( value="json/login", method=RequestMethod.POST )
-	public User login(	@RequestBody User user,
+	public Map<String,Object> login(	@RequestBody User user,
 									HttpSession session ) throws Exception{
 	
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		
 		System.out.println("/user/json/login : POST");
 		//Business Logic
 		System.out.println("::"+user);
 		User dbUser=userService.getUser(user.getUserId());
 		
-		if( user.getPassword().equals(dbUser.getPassword())){
-			session.setAttribute("user", dbUser);
+		if(dbUser == null) {
+			map.put("pass", "false");
+		}else {
+			if( user.getPassword().equals(dbUser.getPassword())){
+				session.setAttribute("user", dbUser);
+				map.put("user", dbUser);
+				map.put("pass", "true");
+			}else {
+				map.put("pass", "false");
+			}
+			
 		}
 		
-		return dbUser;
+		
+		
+		
+		return map;
 	}
 	
 	@RequestMapping( value="json/addUser", method=RequestMethod.POST )

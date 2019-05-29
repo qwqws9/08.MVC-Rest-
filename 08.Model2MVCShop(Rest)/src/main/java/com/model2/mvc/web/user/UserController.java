@@ -61,7 +61,7 @@ public class UserController {
 		//Business Logic
 		userService.addUser(user);
 		
-		return "redirect:/user/loginView.jsp";
+		return "redirect:/";
 	}
 	
 	//@RequestMapping("/getUser.do")
@@ -141,7 +141,7 @@ public class UserController {
 		
 		session.invalidate();
 		
-		return "redirect:/index.jsp";
+		return "redirect:/";
 	}
 	
 	

@@ -12,8 +12,12 @@
 	
 		
   <title>Shop Homepage</title>
-  
+   
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  
+  
+  
+  
   
   <!-- Bootstrap core CSS -->
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,6 +28,17 @@
 	
 
 	<script type="text/javascript"> 
+	
+	$(function() {
+		if (!location.hash) { 
+
+			location.hash = '#reload';
+
+			location.href = location.href;
+
+		}
+	})
+	
 	var total = 0;
 	var page = 3;
 	var nth = 7;
@@ -244,6 +259,7 @@
 				}else {
 					 $('#mask , .login-popup').fadeOut(300 , function() {
 				 	 $('#mask').remove(); 
+				 	 $($('.password span')[1]).remove();
 					 });
 				}
 			});
@@ -264,6 +280,52 @@
 
 	
 	
+	
+	//로그인 이벤트
+	$( function() {
+		$('.submit.button').on('click', function() {
+			 $('#mypage').val(" 님 환영합니다.");
+			var id = $('#username').val().trim();
+			var pwd = $('#password').val().trim();
+			//alert(id + "," + pwd);
+			
+			
+			$.ajax( {
+				url : '/user/json/login',
+				method : 'POST',
+				data : JSON.stringify( {
+					"userId" : id,
+					"password" : pwd
+				}),
+				dataType : "json",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function(JSONData, status) {
+					//alert(status);
+					//alert(JSONData.user.userName);
+					
+					var pass = JSONData.pass;
+					if(pass == 'false') {
+						$('.password').append('<span>아이디 또는 비밀번호를 다시 확인하세요.</span>')
+						$($('.password span')[1]).css('color','red');
+					}else {
+						
+						 $('#mask , .login-popup').fadeOut(300 , function() {
+						 	 $('#mask').remove(); 
+						  	location.reload();
+							 });
+						 
+						 
+						
+					}
+				}
+				
+			})
+		})
+		
+	});
 	
 	</script> 
 	
@@ -400,6 +462,50 @@ form.signin input::-webkit-input-placeholder {
 }
 	
 	</style>
+	
+	
+	<style>
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  font-size : 13px;
+  padding: 6px 8px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+ 
+}
+
+.dropdown-content  li { list-style: none;
+ }
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+</style>
 
 </head>
 
@@ -408,16 +514,24 @@ form.signin input::-webkit-input-placeholder {
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Model2 MVC </a>
+      <a class="navbar-brand" href="/">Model2 MVC </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
+          <li class="nav-item dropdown">
+            <a id="mypage" class="nav-link dropdown-toggle"   href="#"  data-toggle="dropdown">상품
             </a>
+					  <div class="dropdown-content">
+					  
+					    <a href="#">내 정보보기</a>
+					    <a href="#">주문배송조회</a>
+					    <a href="#">1 : 1 문의</a>
+					    <a href="#">장바구니</a>
+					    <hr>
+					    <a href="/user/logout">로그아웃</a>
+					  </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">About</a>
@@ -428,12 +542,22 @@ form.signin input::-webkit-input-placeholder {
 <!--             <a class="nav-link" href="/user/login">로그인</a> -->
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">회원가입</a>
+            <a class="nav-link" href="/user/addUser">회원가입</a>
           </li>
             </c:if>
             <c:if test="${!empty user }">
-          <li class="nav-item">
-            <a class="nav-link" href="#">로그아웃</a>
+          <li class="nav-item dropdown">
+            <a id="mypage" class="nav-link dropdown-toggle"   href="#"  data-toggle="dropdown">${user.userName }님 환영합니다.
+            </a>
+					  <div class="dropdown-content">
+					  
+					    <a href="#">내 정보보기</a>
+					    <a href="#">주문배송조회</a>
+					    <a href="#">1 : 1 문의</a>
+					    <a href="#">장바구니</a>
+					    <hr>
+					    <a href="/user/logout">로그아웃</a>
+					  </div>
           </li>
             </c:if>
         </ul>
@@ -443,6 +567,7 @@ form.signin input::-webkit-input-placeholder {
 
   <!-- Page Content -->
   <div class="container">
+
 
     <div class="row">
 
@@ -602,18 +727,22 @@ form.signin input::-webkit-input-placeholder {
   </div>
   <!-- /.container -->
   
+  
+  <!-- 로그인 페이지 -->
   <div id="login-box" class="login-popup" style= "display: none;">
 <!-- 		<a href="#" class="close"><img src="http://www.alessioatzeni.com/wp-content/tutorials/jquery/login-box-modal-dialog-window/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a> -->
   <form method="post" class="signin" action="#">
         <fieldset class="textbox">
         <label class="username">
         <span>아이디</span>
-        <input id="username" name="username" value="" type="text" autocomplete="on" placeholder="UserId">
+        <input id="username" name="userId" value="" type="text" autocomplete="on" placeholder="UserId">
         </label>
         <label class="password">
         <span>비밀번호</span>
         <input id="password" name="password" value="" type="password" placeholder="Password">
+       
         </label>
+        
         <button class="submit button" type="button">로그인</button>
         <p>
         <a class="forgot" href="#">아이디/비밀번호 찾기</a>
@@ -621,6 +750,46 @@ form.signin input::-webkit-input-placeholder {
         </fieldset>
   </form>
 </div>
+
+<!-- 로그인 페이지  끝-->
+
+
+
+<!--  <!-- 회원가입 페이지 --> 
+<!--   <div id="login-box" class="login-popup" style= "display: none;"> -->
+<!-- <!-- 		<a href="#" class="close"><img src="http://www.alessioatzeni.com/wp-content/tutorials/jquery/login-box-modal-dialog-window/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a> --> -->
+<!--   <form method="post" class="signin" action="#"> -->
+<!--         <fieldset class="textbox"> -->
+<!--         <label class="username"> -->
+<!--         <span>아이디</span> -->
+<!--         <input id="username" name="userId" value="" type="text" autocomplete="on" > -->
+<!--         </label> -->
+<!--         <label class="password"> -->
+<!--         <span>비밀번호</span> -->
+<!--         <input id="password" name="password" value="" type="password" > -->
+<!--         <input id="password2" name="password2" value="" type="password" placeholder="비밀번호 확인"> -->
+<!--         </label> -->
+        
+<!--         <label class="userName"> -->
+<!--         <span>이름</span> -->
+<!--         <input id="userName" name="userName" value="" type="text" > -->
+<!--         </label> -->
+        
+        
+<!--          <label class="ssn"> -->
+<!--         <span>주민등록번호</span> -->
+<!--         <input id="ssn" name="ssn" value="" type="text" placeholder="- 제외 , 13자리 입력"> -->
+<!--         </label> -->
+        
+      
+        
+        
+<!--         <button class="submit button" type="button">회원가입</button> -->
+<!--         </fieldset> -->
+<!--   </form> -->
+<!-- </div> -->
+
+<!-- <!-- 회원가입 페이지  끝--> -->
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">
