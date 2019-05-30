@@ -1,6 +1,7 @@
 package com.model2.mvc.service.user.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,10 @@ public class UserDaoImpl implements UserDao{
 	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
+	}
+
+	@Override
+	public User getSocial(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne("UserMapper.getSocial", map);
 	}
 }

@@ -26,7 +26,7 @@
   <link href="/css/shop-homepage.css" rel="stylesheet">
 
 	
-
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script type="text/javascript"> 
 	
 	$(function() {
@@ -226,6 +226,37 @@
 	
 	
 	$(document).ready(function() {
+		
+		//<![CDATA[
+	    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+	    Kakao.init('9853999f1b5e8999c8c39ff5997edf9f');
+	    // 카카오 로그인 버튼을 생성합니다.
+	    Kakao.Auth.createLoginButton({
+	      container: '#kakao-login-btn',
+	      success: function(authObj) {
+	        // 로그인 성공시, API를 호출합니다.
+	        Kakao.API.request({
+	          url: '/v2/user/me',
+	          success: function(res) {
+	            alert(JSON.stringify(res));
+	            var result = JSON.stringify(res);
+	            alert(result);
+	            alert(res.properties.nickname);
+	            alert(res.properties.profile_image);
+	            alert(res.id);
+	            $(location).attr('href', '/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);
+	          },
+	          fail: function(error) {
+	            alert(JSON.stringify(error));
+	          }
+	        });
+	      },
+	      fail: function(err) {
+	        alert(JSON.stringify(err));
+	      }
+	    });
+	  //]]>
+		
 		$('a.nav-link:contains("로그인")').on('click',function() {
 		    
 		            //Getting the variable's value from a link 
@@ -757,6 +788,9 @@ form.signin input::-webkit-input-placeholder {
         <button class="submit button" type="button">로그인</button>
         <p>
         <a class="forgot" href="#">아이디/비밀번호 찾기</a>
+        </p>
+        <p>
+        <a id="kakao-login-btn"></a>
         </p>        
         </fieldset>
   </form>

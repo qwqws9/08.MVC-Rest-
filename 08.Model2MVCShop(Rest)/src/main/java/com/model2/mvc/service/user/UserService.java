@@ -15,6 +15,9 @@ public interface UserService {
 	// 내정보확인 / 로그인
 	public User getUser(String userId) throws Exception;
 	
+	
+	public User getSocial(Map<String,Object> map) throws Exception ;
+	
 	// 회원정보리스트 
 	public Map<String , Object> getUserList(Search search) throws Exception;
 	

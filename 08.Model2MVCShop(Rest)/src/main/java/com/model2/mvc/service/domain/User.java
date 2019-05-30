@@ -20,9 +20,22 @@ public class User {
 	private String phone1;
 	private String phone2;
 	private String phone3;
+	
+	//kakao login
+	private int kakao;
+	
+	
 
 	
 	
+	public int getKakao() {
+		return kakao;
+	}
+
+	public void setKakao(int kakao) {
+		this.kakao = kakao;
+	}
+
 	///Constructor
 	public User(){
 	}

@@ -63,4 +63,9 @@ public class UserServiceImpl implements UserService{
 		}
 		return result;
 	}
+
+	@Override
+	public User getSocial(Map<String, Object> map) throws Exception {
+		return userDao.getSocial(map);
+	}
 }
