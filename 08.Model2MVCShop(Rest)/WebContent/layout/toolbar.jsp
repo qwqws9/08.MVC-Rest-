@@ -32,11 +32,11 @@ $(document).ready(function() {
           url: '/v2/user/me',
           success: function(res) {
         	var result = JSON.stringify(res);
-            alert(result);
-            alert(res.properties.nickname);
-            alert(res.properties.profile_image);
-            alert(res.id);
-            $(location).attr('href', 'http://localhost:8080/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);
+            //alert(result);
+            //alert(res.properties.nickname);
+            //alert(res.properties.profile_image);
+            //alert(res.id);
+            $(location).attr('href', '/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);
             //window.location.href = '/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id;
             //$('form').attr('method','GET').attr('action','/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);          
           },
@@ -161,6 +161,18 @@ $( function() {
 	})
 	
 });
+
+
+
+// 카카오 로그아웃
+
+$( function() {
+	//https://developers.kakao.com/docs/js-reference#kakao_auth_logout()
+	$('a:contains("로그아웃")').on('click', function() {
+		Kakao.Auth.logout();
+	})
+})
+
 
 
 

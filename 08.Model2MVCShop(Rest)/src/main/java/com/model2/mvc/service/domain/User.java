@@ -22,17 +22,19 @@ public class User {
 	private String phone3;
 	
 	//kakao login
-	private int kakao;
+	private String kakao;
 	
 	
 
 	
 	
-	public int getKakao() {
+	
+
+	public String getKakao() {
 		return kakao;
 	}
 
-	public void setKakao(int kakao) {
+	public void setKakao(String kakao) {
 		this.kakao = kakao;
 	}
 

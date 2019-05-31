@@ -23,9 +23,9 @@
 	<!-- SQL : INSERT -->
 	<insert 	id="addUser"		parameterType="user" >
 	 	INSERT
-		INTO users( user_id , user_name , password , role , ssn, cell_phone, addr, email , reg_date) 
+		INTO users( user_id , user_name , password , role , ssn, cell_phone, addr, email , reg_date, kakao) 
 		VALUES	 (	#{userId} , #{userName} , #{password} , 'user' , #{ssn:VARCHAR} , 
-							#{phone:VARCHAR} , #{addr:VARCHAR} , #{email:VARCHAR} , SYSDATE )
+							#{phone:VARCHAR} , #{addr:VARCHAR} , #{email:VARCHAR} , SYSDATE, #{kakao:VARCHAR} )
 	 </insert>
 	 
 	 <!-- SQL : KAKAO -->
@@ -33,7 +33,7 @@
 		SELECT
 		user_id , user_name , password , role ,  cell_phone ,  addr , email , reg_date , kakao 		
 		FROM users 
-		WHERE kakao = #{kakao.id}
+		WHERE kakao = #{kakao}
 	 </select>
 	 
 	 <!-- SQL : SELECT ONE -->

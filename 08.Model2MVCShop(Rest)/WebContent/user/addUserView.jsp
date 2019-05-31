@@ -233,6 +233,7 @@
 
 <body>
 
+
 	<jsp:include page="../layout/toolbar.jsp"/>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
@@ -250,6 +251,7 @@
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
+		<input type="hidden" name="kakao" value="${kakao }">
 		
 		  <div class="form-group">
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">¾Æ ÀÌ µð</label>

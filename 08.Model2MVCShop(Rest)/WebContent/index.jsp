@@ -238,13 +238,12 @@
 	        Kakao.API.request({
 	          url: '/v2/user/me',
 	          success: function(res) {
-	            alert(JSON.stringify(res));
-	            var result = JSON.stringify(res);
-	            alert(result);
-	            alert(res.properties.nickname);
-	            alert(res.properties.profile_image);
-	            alert(res.id);
-	            $(location).attr('href', '/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);
+	        	  var result = JSON.stringify(res);
+	              //alert(result);
+	              //alert(res.properties.nickname);
+	              //alert(res.properties.profile_image);
+	              //alert(res.id);
+	              $(location).attr('href', '/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);
 	          },
 	          fail: function(error) {
 	            alert(JSON.stringify(error));
@@ -348,7 +347,6 @@
 					var pass = JSONData.pass;
 					if(pass == 'false') {
 						$('.password').append('<span>아이디 또는 비밀번호를 다시 확인하세요.</span>')
-						$($('.password span')[1]).css('color','red');
 					}else {
 						
 						 $('#mask , .login-popup').fadeOut(300 , function() {
@@ -365,6 +363,25 @@
 		})
 		
 	});
+	
+	
+	// 카카오 로그아웃
+
+	$( function() {
+		//https://developers.kakao.com/docs/js-reference#kakao_auth_logout()
+		$('a:contains("로그아웃")').on('click', function() {
+			alert("호출되나?");
+			Kakao.init('9853999f1b5e8999c8c39ff5997edf9f');
+			 
+			Kakao.Auth.logout({
+				callback : function() {
+					alert("aawdawdawd");
+					 $(location).attr('href', '/');
+				}
+			});
+				
+		})
+	})
 	
 	</script> 
 	

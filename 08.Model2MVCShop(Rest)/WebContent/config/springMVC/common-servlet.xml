@@ -36,8 +36,11 @@
    	<mvc:interceptors>
 		
    		<mvc:interceptor>
+
 			<mvc:mapping path="/user/**"/>
+   			<mvc:exclude-mapping path="/user/kakao"/> <!-- 제외하는 url -->
 			<bean class="com.model2.mvc.common.web.LogonCheckInterceptor" />
+			
    		</mvc:interceptor>
 
    	</mvc:interceptors>

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.model2.mvc.common.ConvertEn;
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.User;
@@ -48,12 +49,15 @@ public class UserController {
 	@RequestMapping( value="kakao" ,method=RequestMethod.GET)
 	public String kakao( @RequestParam("userName") String userName
 						,@RequestParam("profile") String profile,
-						@RequestParam("id") String id
+						@RequestParam("id") String id,
+						HttpServletRequest request,
+						HttpSession session
 			) throws Exception {
 		System.out.println("카카오 컨트롤러 들어옴!!!!!");
 		System.out.println(id);
-		System.out.println(userName);
+		System.out.println(ConvertEn.convertKo(userName));
 		System.out.println(profile);
+		
 		System.out.println("===================================");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -61,12 +65,13 @@ public class UserController {
 		User user = userService.getSocial(map);
 		if(user == null) {
 			System.out.println("!!!!!!!!!!!!!!회원가입시켜야함");
+			request.setAttribute("kakao", id);
+			return "forward:/user/addUserView.jsp";
 		}else {
 			System.out.println("!!!!!!!!!!!회원임");
+			session.setAttribute("user", user);
+			return "redirect:/";
 		}
-		
-		
-		return null;
 	}
 	
 	
