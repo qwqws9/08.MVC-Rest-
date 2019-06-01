@@ -23,32 +23,86 @@ $(document).ready(function() {
 	//<![CDATA[
     // 사용할 앱의 JavaScript 키를 설정해 주세요.
     Kakao.init('9853999f1b5e8999c8c39ff5997edf9f');
+    
+    
+    if(Kakao.Auth.getAccessToken() == null) {
     // 카카오 로그인 버튼을 생성합니다.
     Kakao.Auth.createLoginButton({
       container: '#kakao-login-btn',
       success: function(authObj) {
-        // 로그인 성공시, API를 호출합니다.
-        Kakao.API.request({
-          url: '/v2/user/me',
-          success: function(res) {
-        	var result = JSON.stringify(res);
-            //alert(result);
-            //alert(res.properties.nickname);
-            //alert(res.properties.profile_image);
-            //alert(res.id);
-            $(location).attr('href', '/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);
-            //window.location.href = '/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id;
-            //$('form').attr('method','GET').attr('action','/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);          
-          },
-          fail: function(error) {
-            alert(JSON.stringify(error));
-          }
-        });
+    	  
+    	 
+    		  Kakao.Auth.loginForm({
+	    		  success: function(authObj) {
+	    			  
+	    			  Kakao.API.request({
+	    		          url: '/v2/user/me',
+	    		          success: function(res) {
+	    		        	  var result = JSON.stringify(res);
+	    		             
+	    		        	  
+	    		              $(location).attr('href', '/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);
+	    		          },
+	    		          fail: function(error) {
+	    		            alert(JSON.stringify(error));
+	    		          }
+	    		        });
+	    			  
+	    			  
+	    			  
+	    			  
+	    			  
+	    	        },
+	    	        fail: function(err) {
+	    	          alert(JSON.stringify(err));
+	    	        }
+	    	  });
+    		  
       },
       fail: function(err) {
         alert(JSON.stringify(err));
       }
-    });
+    });	  
+    		  
+    		  
+    	  }else {
+    		  Kakao.Auth.createLoginButton({
+    		  container: '#kakao-login-btn',
+    		  success: function(authObj) {
+    		  
+    		  Kakao.Auth.login({
+    		        success: function(authObj) {
+    		        	
+    		        	Kakao.API.request({
+    		  	          url: '/v2/user/me',
+    		  	          success: function(res) {
+    		  	        	  var result = JSON.stringify(res);
+    		  	             
+    		  	        	  
+    		  	              $(location).attr('href', '/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);
+    		  	          },
+    		  	          fail: function(error) {
+    		  	            alert(JSON.stringify(error));
+    		  	          }
+    		  	        });
+    		        	
+    		        	
+    		        	
+    		        	
+    		        },
+    		        fail: function(err) {
+    		          alert(JSON.stringify(err));
+    		        }
+    		  });
+    		  
+    		  
+    	  
+    	  },
+	      fail: function(err) {
+	        alert(JSON.stringify(err));
+	      }
+    		  })
+    	  }
   //]]>
 	
 	
@@ -164,15 +218,38 @@ $( function() {
 
 
 
-// 카카오 로그아웃
+//카카오 로그아웃
 
 $( function() {
 	//https://developers.kakao.com/docs/js-reference#kakao_auth_logout()
+	
+	
+	
+	
 	$('a:contains("로그아웃")').on('click', function() {
-		Kakao.Auth.logout();
+		//alert("호출되나?");
+		//Kakao.init();
+		
+		
+		Kakao.API.request({
+	          url: '/v2/user/me',
+	          success: function(res) {
+	        	  //alert("api 리퀘스트 완료")
+	        	  //alert(Kakao.Auth.getAccessToken());
+	        	  
+	        	  Kakao.Auth.logout(function(data){
+	  	            //alert(data);
+	  	         	 //alert(Kakao.Auth.getAccessToken());
+	  	            $(location).attr('href','/user/logout');
+	  	        });
+	  				
+	          },
+	          fail: function(error) {
+	            alert(JSON.stringify(error));
+	          }
+	        });
 	})
 })
-
 
 
 

@@ -13,17 +13,18 @@ public class FileNameUUID {
 		
 		String saveName = "NotImage.png";
 		if(!file.getOriginalFilename().equals("")) {
-			System.out.println("À¯À¯À¯À¯À¯À¯À¯Ÿº¤©¾î¿È?");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?");
 		
 		UUID uuid = UUID.randomUUID();
 		saveName = uuid+"_"+ file.getOriginalFilename();
-		System.out.println("ÆÄÀÏÀÌ¸§Àº????   "+ "_"+file.getOriginalFilename()+"_");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½????   "+ "_"+file.getOriginalFilename()+"_");
 		
-		System.out.println("ÆÄÀÏ¸í"+saveName);
+		System.out.println("ï¿½ï¿½ï¿½Ï¸ï¿½"+saveName);
 
-		File saveFile = new File("C:\\Users\\USER\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles",saveName);
-		// C:\\Users\\qwqws\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles
-		// C:\\Users\\USER\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles
+		File saveFile = new File("C:\\Users\\ejfrm\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles",saveName);
+		//ë°ìŠ¤í¬íƒ‘ C:\\Users\\qwqws\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles
+		//í•™ì› C:\\Users\\USER\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles
+		//ë…¸íŠ¸ë¶ C:\\Users\\ejfrm\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\images\\uploadFiles
 		try {
 			file.transferTo(saveFile);
 		} catch (IOException e) {

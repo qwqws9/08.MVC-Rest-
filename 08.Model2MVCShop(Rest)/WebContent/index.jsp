@@ -43,7 +43,10 @@
 	var page = 3;
 	var nth = 7;
 	$(window).scroll(function() {
-	    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+		//console.log(Math.ceil($(window).scrollTop()));
+		//console.log($(document).height() - $(window).height());
+		
+	    if (Math.ceil($(window).scrollTop()) == $(document).height() - $(window).height()) {
 	      //console.log(++page);
 	     // $(".row").append(function() {
 	    	  //alert("야호");
@@ -230,31 +233,102 @@
 		//<![CDATA[
 	    // 사용할 앱의 JavaScript 키를 설정해 주세요.
 	    Kakao.init('9853999f1b5e8999c8c39ff5997edf9f');
+	    
+	    
+	    if(Kakao.Auth.getAccessToken() == null) {
 	    // 카카오 로그인 버튼을 생성합니다.
 	    Kakao.Auth.createLoginButton({
 	      container: '#kakao-login-btn',
 	      success: function(authObj) {
-	        // 로그인 성공시, API를 호출합니다.
-	        Kakao.API.request({
-	          url: '/v2/user/me',
-	          success: function(res) {
-	        	  var result = JSON.stringify(res);
-	              //alert(result);
-	              //alert(res.properties.nickname);
-	              //alert(res.properties.profile_image);
-	              //alert(res.id);
-	              $(location).attr('href', '/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);
-	          },
-	          fail: function(error) {
-	            alert(JSON.stringify(error));
-	          }
-	        });
+	    	  
+	    	 
+	    		  Kakao.Auth.loginForm({
+		    		  success: function(authObj) {
+		    			  
+		    			  Kakao.API.request({
+		    		          url: '/v2/user/me',
+		    		          success: function(res) {
+		    		        	  var result = JSON.stringify(res);
+		    		             
+		    		        	  
+		    		              $(location).attr('href', '/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);
+		    		          },
+		    		          fail: function(error) {
+		    		            alert(JSON.stringify(error));
+		    		          }
+		    		        });
+		    			  
+		    			  
+		    			  
+		    			  
+		    			  
+		    	        },
+		    	        fail: function(err) {
+		    	          alert(JSON.stringify(err));
+		    	        }
+		    	  });
+	    		  
 	      },
 	      fail: function(err) {
 	        alert(JSON.stringify(err));
 	      }
+	    });	  
+	    		  
+	    		  
+	    	  }else {
+	    		  Kakao.Auth.createLoginButton({
+	    		  container: '#kakao-login-btn',
+	    		  success: function(authObj) {
+	    		  
+	    		  Kakao.Auth.login({
+	    		        success: function(authObj) {
+	    		        	
+	    		        	Kakao.API.request({
+	    		  	          url: '/v2/user/me',
+	    		  	          success: function(res) {
+	    		  	        	  var result = JSON.stringify(res);
+	    		  	             
+	    		  	        	  
+	    		  	              $(location).attr('href', '/user/kakao?userName='+res.properties.nickname+"&profile="+res.properties.profile_image+"&id="+res.id);
+	    		  	          },
+	    		  	          fail: function(error) {
+	    		  	            alert(JSON.stringify(error));
+	    		  	          }
+	    		  	        });
+	    		        	
+	    		        	
+	    		        	
+	    		        	
+	    		        },
+	    		        fail: function(err) {
+	    		          alert(JSON.stringify(err));
+	    		        }
+	    		  });
+	    		  
+	    		  
+	    	  
+	    	  },
+		      fail: function(err) {
+		        alert(JSON.stringify(err));
+		      }
+	    		  })
+	    	  }
+	      
+	    
+	  //]]>
+		
+	  //<![CDATA[
+	    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+	    //Kakao.init('YOUR APP KEY');
+	    // 플러스친구 친구추가 버튼을 생성합니다.
+	    Kakao.PlusFriend.createAddFriendButton({
+	      container: '#plusfriend-addfriend-button',
+	      plusFriendId: '_CieuT' // 플러스친구 홈 URL에 명시된 id로 설정합니다.
 	    });
 	  //]]>
+	  
+	  
+		
 		
 		$('a.nav-link:contains("로그인")').on('click',function() {
 		    
@@ -279,6 +353,8 @@
 		    
 		    return false;
 		});
+		
+	
 		
 		
 // 		$(document).on('click',function() {
@@ -369,23 +445,74 @@
 
 	$( function() {
 		//https://developers.kakao.com/docs/js-reference#kakao_auth_logout()
-		$('a:contains("로그아웃")').on('click', function() {
-			alert("호출되나?");
-			Kakao.init('9853999f1b5e8999c8c39ff5997edf9f');
-			 
-			Kakao.Auth.logout({
-				callback : function() {
-					alert("aawdawdawd");
-					 $(location).attr('href', '/');
-				}
-			});
-				
+		
+		$(window).scroll(function() { 
+			//alert("??");
+		$('#banner').animate({top:$(window).scrollTop()+"px" },{queue: false, duration: 500});
+		}); 
+		
+		
+		
+		
+		$('a:contains("카카오")').on('click', function() {
+			//alert("호출되나?");
+			//Kakao.init();
+			
+			Kakao.API.request({
+		          url: '/v2/user/me',
+		          success: function(res) {
+		        	  //alert("api 리퀘스트 완료")
+		        	  //alert(Kakao.Auth.getAccessToken());
+		        	  
+		        	  Kakao.Auth.logout(function(data){
+		  	            //alert(data);
+		  	         	 //alert(Kakao.Auth.getAccessToken());
+		  	            $(location).attr('href','/user/logout');
+		  	        });
+		  				
+		          },
+		          fail: function(error) {
+		            alert(JSON.stringify(error));
+		          }
+		        });
 		})
 	})
+	
+	
+	// 플러스친구 채팅시작하기
+	//<![CDATA[
+    function plusFriendChat() {
+        Kakao.PlusFriend.chat({
+          plusFriendId: '_CieuT' // 플러스친구 홈 URL에 명시된 id로 설정합니다.
+        });
+      }
+    //]]>
 	
 	</script> 
 	
 	
+	
+	
+	<!--  배너 따라다니기 -->
+	<style type="text/css">
+<!--
+/* 	body {font-size:11pt; padding:0; margin:0;} */
+/* 	h3 {color: #85144b; font-size: 14pt;} */
+
+/* 	.contents {width: 800px; margin: 0 auto; height: auto; background-color: #e0e0e0; padding: 20px;} */
+/* 	.contents img {float: left; padding: 30px;}	 */
+
+ 	#banner { position: absolute; font-size: 12pt; top: 5px; left: 0; z-index: 10; background:#ffffff; padding:5px;  text-align:center;} 
+/* 	#banner > span {margin-bottom: 10px; display: block;} */
+/* 	.banner_contents {min-height: 200px; background-color: #c0c0c0; padding: 5px;} */
+
+//-->
+</style>
+
+
+
+
+
 	<style type="text/css">
 	/* Mask for background, by default is not display */
 #mask {
@@ -616,6 +743,9 @@ form.signin input::-webkit-input-placeholder {
 					    <a href="#">장바구니</a>
 					    <hr>
 					    <a href="/user/logout">로그아웃</a>
+					    <c:if test = "${!empty user.kakao}">
+					    <a href="#">카카오 로그아웃</a>
+					    </c:if>
 					  </div>
           </li>
             </c:if>
@@ -630,17 +760,23 @@ form.signin input::-webkit-input-placeholder {
 
     <div class="row">
 
-      <div class="col-lg-3">
-
-        <h1 class="my-4">Shop Name</h1>
-        <div class="list-group">
+      <div class="col-lg-3" style="position:relative;float:left;width:180px;top:-15px;right:0px;">
+		 <div id="banner" >
+        <h1  class="my-4">Shop Name</h1>
+        <div class="list-group"  >
+          
           <a href="#" class="list-group-item">Category 1</a>
           <a href="#" class="list-group-item">Category 2</a>
           <a href="#" class="list-group-item">Category 3</a>
+          <div  class="list-group-item" id="plusfriend-addfriend-button">
+          <a  href="javascript:void plusFriendChat()">
+ 			 <img src="https://developers.kakao.com/assets/img/about/logos/plusfriend/consult_small_yellow_pc.png"/>
+			</a>
+			</div>
         </div>
         
         
-        
+        </div>
 
       </div>
       <!-- /.col-lg-3 -->
@@ -867,5 +1003,13 @@ form.signin input::-webkit-input-placeholder {
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
+
+
+
+
+
+
+
 
 </html>
