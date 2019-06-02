@@ -506,7 +506,7 @@
 /* 	#banner > span {margin-bottom: 10px; display: block;} */
 /* 	.banner_contents {min-height: 200px; background-color: #c0c0c0; padding: 5px;} */
 
-//-->
+-->
 </style>
 
 
@@ -715,7 +715,7 @@ form.signin input::-webkit-input-placeholder {
 					    <a href="#">판매상품관리</a>
 					    <a href="#">배송업무</a>
 					    <hr>
-					    <a href="#">1 : 1 문의</a>
+					    <a href="/board/listBoard">문의 내역</a>
 					  </div>
           </li>
           </c:if>
@@ -739,7 +739,7 @@ form.signin input::-webkit-input-placeholder {
 					  
 					    <a href="#">내 정보보기</a>
 					    <a href="#">주문배송조회</a>
-					    <a href="#">1 : 1 문의</a>
+					    <a href="/board/listBoard">1 : 1 문의</a>
 					    <a href="#">장바구니</a>
 					    <hr>
 					    <a href="/user/logout">로그아웃</a>
@@ -953,9 +953,9 @@ form.signin input::-webkit-input-placeholder {
 
 
 
-<!--  <!-- 회원가입 페이지 --> 
+<!--   회원가입 페이지 --> 
 <!--   <div id="login-box" class="login-popup" style= "display: none;"> -->
-<!-- <!-- 		<a href="#" class="close"><img src="http://www.alessioatzeni.com/wp-content/tutorials/jquery/login-box-modal-dialog-window/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a> --> -->
+<!--  		<a href="#" class="close"><img src="http://www.alessioatzeni.com/wp-content/tutorials/jquery/login-box-modal-dialog-window/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a> --> 
 <!--   <form method="post" class="signin" action="#"> -->
 <!--         <fieldset class="textbox"> -->
 <!--         <label class="username"> -->
@@ -987,7 +987,7 @@ form.signin input::-webkit-input-placeholder {
 <!--   </form> -->
 <!-- </div> -->
 
-<!-- <!-- 회원가입 페이지  끝--> -->
+<!--  회원가입 페이지  끝--> 
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">

@@ -10,6 +10,14 @@
 <html>
 <head>
 <title>문의 게시판</title>
+<script
+  src="https://code.jquery.com/jquery-2.1.4.js"
+  integrity="sha256-siFczlgw4jULnUICcdm9gjQPZkw/YPDqhQ9+nAOScE4="
+  crossorigin="anonymous"></script>
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -23,6 +31,8 @@
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
+
+<jsp:include page="../layout/toolbar.jsp"/>
 
 <div style="width: 98%; margin-left: 10px;">
 
@@ -120,6 +130,11 @@
 </form>
 
 </div>
+
+
+
+
+
 
 </body>
 </html>

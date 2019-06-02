@@ -466,20 +466,20 @@ form.signin input::-webkit-input-placeholder {
 					  
 					    <a href="#">회원정보조회</a>
 					    <hr>
-					    <a href="#">판매상품등록</a>
+					    <a href="/product/addProductView.jsp">판매상품등록</a>
 					    <a href="#">판매상품관리</a>
 					    <a href="#">배송업무</a>
 					    <hr>
-					    <a href="#">1 : 1 문의</a>
+					    <a href="/board/listBoard">문의 내역</a>
 					  </div>
           </li>
           </c:if>
 <!--           <li class="nav-item active"> -->
             <li class="nav-item">
-            <a class="nav-link" href="#">123qwe</a>
+            <a class="nav-link" href="#"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">awdawdawd</a>
+            <a class="nav-link" href="#"></a>
           </li>
           <c:if test="${empty user }">
           <li class="nav-item">
@@ -500,7 +500,7 @@ form.signin input::-webkit-input-placeholder {
 					  
 					    <a href="#">내 정보보기</a>
 					    <a href="#">주문배송조회</a>
-					    <a href="#">1 : 1 문의</a>
+					    <a href="/board/listBoard">1 : 1 문의</a>
 					    <a href="#">장바구니</a>
 					    <hr>
 					    <a href="/user/logout">로그아웃</a>

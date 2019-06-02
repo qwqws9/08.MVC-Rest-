@@ -21,7 +21,7 @@ public class FileNameUUID {
 		
 		System.out.println("���ϸ�"+saveName);
 
-		File saveFile = new File("C:\\Users\\ejfrm\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles",saveName);
+		File saveFile = new File("C:\\Users\\qwqws\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles",saveName);
 		//데스크탑 C:\\Users\\qwqws\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles
 		//학원 C:\\Users\\USER\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\\images\\uploadFiles
 		//노트북 C:\\Users\\ejfrm\\git\\08.MVC-Rest-\\08.Model2MVCShop(Rest)\\WebContent\images\\uploadFiles

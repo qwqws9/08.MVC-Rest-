@@ -64,7 +64,7 @@ public class boardController {
 	public String listBoard(@RequestParam(value="currentPage",defaultValue="1") int currentPage,
 							HttpSession session,Model model,
 							@ModelAttribute("search") Search search) throws Exception {
-		
+		System.out.println("1대1 문의게시판들어옴");
 		search.setCurrentPage(currentPage);
 		search.setPageSize(pageSize);
 		
@@ -125,7 +125,7 @@ public class boardController {
 //		
 //
 //		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
-//		System.out.println("�ǸŹ�ȣ : " + prodNo);
+//		System.out.println("�ǸŹ�ȣ : " + prodNo);
 //		
 //		//request.setAttribute("prodNo", prodNo);
 //		

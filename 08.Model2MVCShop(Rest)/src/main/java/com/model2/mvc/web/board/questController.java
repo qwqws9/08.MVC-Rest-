@@ -67,7 +67,7 @@ public class questController {
 	@RequestMapping("/listBoard")
 	public String listBoard(@RequestParam(value="currentPage",defaultValue="1") int currentPage,
 							HttpSession session,Model model,
-							@ModelAttribute("search") Search search) throws Exception {
+							Search search) throws Exception {
 		
 		search.setCurrentPage(currentPage);
 		search.setPageSize(pageSize);
@@ -128,7 +128,7 @@ public class questController {
 //		
 //
 //		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
-//		System.out.println("�ǸŹ�ȣ : " + prodNo);
+//		System.out.println("�ǸŹ�ȣ : " + prodNo);
 //		
 //		//request.setAttribute("prodNo", prodNo);
 //		
